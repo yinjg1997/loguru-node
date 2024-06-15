@@ -1,0 +1,27 @@
+{
+  "name": "loguru-node",
+  "version": "1.0.1",
+  "description": "inspired by loguru in python, but using log4js",
+  "main": "logger",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "keywords": [
+    "logger",
+    "loguru",
+    "logging",
+    "log",
+    "log4j",
+    "node"
+  ],
+  "license": "ISC",
+  "author": "yinjg1997",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yinjg1997/loguru-node/tree/main"
+  },
+  "dependencies": {
+    "callsite": "^1.0.0",
+    "log4js": "^6.9.1"
+  }
+}

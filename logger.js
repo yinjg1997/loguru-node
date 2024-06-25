@@ -64,26 +64,30 @@ class Logger {
         logFunction.bind(this.logger)(formattedMessage);
     }
 
-    debug(message) {
+    debug(message, ...args) {
         const stack = callsite();
+        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.debug, message, this.colors.blue, stack);
     }
 
-    info(message) {
+    info(message, ...args) {
         const stack = callsite();
+        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.info, message, this.colors.reset, stack);
     }
 
-    warning(message) {
+    warning(message, ...args) {
         const stack = callsite();
+        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.warn, message, this.colors.yellow, stack);
     }
 
-    error(message) {
+    error(message, ...args) {
         const stack = callsite();
+        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.error, message, this.colors.red, stack);
     }

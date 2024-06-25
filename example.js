@@ -8,6 +8,10 @@ const obj = {
     hello: 'hi'
 }
 
+const obj2 = {
+    hello: 'hi',
+    obj: obj
+}
 
 function test_log() {
     logger.debug('This is a debug message');
@@ -25,5 +29,6 @@ function test_log() {
 
 console.log(`console.log===> ${obj}`)
 logger.debug(`debug log===> ${obj}`)
+logger.debug(`debug log===>`, obj, obj2)
 logger.debug(obj.hello)
 test_log();

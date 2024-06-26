@@ -33,3 +33,5 @@ logger.debug(`debug log===>`, obj, obj2)
 logger.debug(obj)
 logger.debug(obj.hello)
 test_log();
+
+console.log(typeof '123' === 'string') // true

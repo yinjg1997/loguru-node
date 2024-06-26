@@ -64,19 +64,25 @@ class Logger {
         logFunction.bind(this.logger)(formattedMessage);
     }
 
+    process_args(message, args) {
+        if (typeof message !== 'string') {
+            message = '\n' + JSON.stringify(message, null, 2)
+        }
+        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
+        return message
+    }
+
     debug(message, ...args) {
         const stack = callsite();
-        message = JSON.stringify(message)
-        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
+        message = this.process_args(message, args)
 
         this.logWithCallerInfo(this.logger.debug, message, this.colors.blue, stack);
     }
 
     info(message, ...args) {
         const stack = callsite();
+        message = this.process_args(message, args)
 
-        message = JSON.stringify(message)
-        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.info, message, this.colors.reset, stack);
     }
@@ -84,17 +90,16 @@ class Logger {
     warning(message, ...args) {
         const stack = callsite();
 
-        message = JSON.stringify(message)
-        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
+        message = this.process_args(message, args)
+
 
         this.logWithCallerInfo(this.logger.warn, message, this.colors.yellow, stack);
     }
 
     error(message, ...args) {
         const stack = callsite();
+        message = this.process_args(message, args)
 
-        message = JSON.stringify(message)
-        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.error, message, this.colors.red, stack);
     }

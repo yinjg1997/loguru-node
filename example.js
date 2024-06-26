@@ -31,7 +31,8 @@ console.log(`console.log===> ${obj}`)
 logger.debug(`debug log===> ${obj}`)
 logger.debug(`debug log===>`, obj, obj2)
 logger.debug(obj)
+logger.debug([1,2,3,])
+logger.debug(111111)
 logger.debug(obj.hello)
 test_log();
 
-console.log(typeof '123' === 'string') // true

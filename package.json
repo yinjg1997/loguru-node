@@ -1,6 +1,6 @@
 {
   "name": "loguru-node",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "inspired by loguru in python, but using log4js",
   "main": "logger",
   "scripts": {

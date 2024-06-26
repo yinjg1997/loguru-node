@@ -65,7 +65,7 @@ class Logger {
     }
 
     process_args(message, args) {
-        if (typeof message !== 'string') {
+        if (typeof message === 'object') {
             message = '\n' + JSON.stringify(message, null, 2)
         }
         args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))

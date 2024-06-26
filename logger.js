@@ -66,6 +66,7 @@ class Logger {
 
     debug(message, ...args) {
         const stack = callsite();
+        message = JSON.stringify(message)
         args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.debug, message, this.colors.blue, stack);
@@ -73,6 +74,8 @@ class Logger {
 
     info(message, ...args) {
         const stack = callsite();
+
+        message = JSON.stringify(message)
         args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.info, message, this.colors.reset, stack);
@@ -80,6 +83,8 @@ class Logger {
 
     warning(message, ...args) {
         const stack = callsite();
+
+        message = JSON.stringify(message)
         args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.warn, message, this.colors.yellow, stack);
@@ -87,6 +92,8 @@ class Logger {
 
     error(message, ...args) {
         const stack = callsite();
+
+        message = JSON.stringify(message)
         args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
 
         this.logWithCallerInfo(this.logger.error, message, this.colors.red, stack);

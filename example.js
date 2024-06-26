@@ -30,5 +30,6 @@ function test_log() {
 console.log(`console.log===> ${obj}`)
 logger.debug(`debug log===> ${obj}`)
 logger.debug(`debug log===>`, obj, obj2)
+logger.debug(obj)
 logger.debug(obj.hello)
 test_log();

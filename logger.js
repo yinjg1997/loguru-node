@@ -1,10 +1,7 @@
-const log4js = require('log4js');
 const callsite = require('callsite');
 const path = require('path');
 
-
 class Logger {
-    logger = log4js.getLogger();
     colors = {
         reset: '\x1b[0m',
         red: '\x1b[31m',
@@ -16,7 +13,6 @@ class Logger {
     };
 
     constructor() {
-        this.configureLogger()
     }
 
     /**
@@ -29,85 +25,67 @@ class Logger {
         return `${color}${text}${this.colors.reset}`;
     }
 
-    // 配置 Log4js
-    configureLogger() {
-        log4js.configure({
-            appenders: {
-                console: {
-                    type: 'console',
-                    layout: {
-                        type: 'pattern',
-                        pattern: `${this.colorize('%d{ISO8601}', this.colors.green)} ${this.colorize('|', this.colors.red)} ${this.colorize('%p', this.colors.blue)} ${this.colorize('|', this.colors.red)} %m`
-                    }
-                }
-            },
-            categories: {
-                default: {appenders: ['console'], level: 'debug'}
-            }
-        });
+    /**
+     * 获取当前时间的格式化字符串
+     * @returns {string} 当前时间的格式化字符串
+     */
+    getCurrentTime() {
+        const now = new Date();
+        return now.toISOString();
     }
 
     /**
      * 提取调用者信息并格式化日志消息
-     * @param {Function} logFunction - log4js的日志函数
+     * @param {Function} logFunction - console 的日志函数
      * @param {string} message - 日志消息
      * @param {string} messageColor - 消息的颜色
      * @param stack
+     * @param messageType
+     * @param args
      */
-    logWithCallerInfo(logFunction, message, messageColor, stack) {
+    logWithCallerInfo(logFunction, message, messageColor, stack, messageType, args) {
         const caller = stack[1];
-        const functionName = caller.getFunctionName() || 'anonymous';
+        const functionName = caller.getFunctionName() || '_main_';
         const fileName = path.basename(caller.getFileName());
         const lineNumber = caller.getLineNumber();
+        const currentTime = this.getCurrentTime();
 
-        const formattedMessage = `${this.colorize(fileName, this.colors.cyan)}${this.colorize(':', this.colors.red)}${this.colorize(functionName, this.colors.cyan)}${this.colorize(':', this.colors.red)}${this.colorize(lineNumber, this.colors.cyan)} ${this.colorize('-', this.colors.red)} ${this.colorize(message, messageColor)}`;
-        logFunction.bind(this.logger)(formattedMessage);
+        const formattedMessage = `${this.colorize(currentTime, this.colors.green)} ${this.colorize('|', this.colors.red)} ${this.colorize(messageType, messageColor)} ${this.colorize('|', this.colors.red)} ${this.colorize(fileName, this.colors.cyan)}${this.colorize(':', this.colors.red)}${this.colorize(functionName, this.colors.cyan)}${this.colorize(':', this.colors.red)}${this.colorize(lineNumber, this.colors.cyan)} ${this.colorize('-', this.colors.red)} ${this.colorize(message, messageColor)}`;
+
+        logFunction(formattedMessage, ...args);
     }
 
-    process_args(message, args) {
-        if (typeof message === 'object') {
-            message = '\n' + JSON.stringify(message, null, 2)
-        }
-        args.map(arg => message += '\n' +JSON.stringify(arg, null, 2))
-        return message
-    }
 
     debug(message, ...args) {
         const stack = callsite();
-        message = this.process_args(message, args)
 
-        this.logWithCallerInfo(this.logger.debug, message, this.colors.blue, stack);
+        this.logWithCallerInfo(console.debug, message, this.colors.blue, stack, 'DEBUG', args);
     }
 
-    info(message, ...args) {
-        const stack = callsite();
-        message = this.process_args(message, args)
-
-
-        this.logWithCallerInfo(this.logger.info, message, this.colors.reset, stack);
-    }
-
-    warning(message, ...args) {
-        const stack = callsite();
-
-        message = this.process_args(message, args)
-
-
-        this.logWithCallerInfo(this.logger.warn, message, this.colors.yellow, stack);
-    }
-
-    error(message, ...args) {
-        const stack = callsite();
-        message = this.process_args(message, args)
-
-
-        this.logWithCallerInfo(this.logger.error, message, this.colors.red, stack);
-    }
+    // info(message, ...args) {
+    //     const stack = callsite();
+    //     message = this.process_args(message, args)
+    //
+    //     this.logWithCallerInfo(console.info, message, this.colors.reset, stack, 'INFO');
+    // }
+    //
+    // warning(message, ...args) {
+    //     const stack = callsite();
+    //     message = this.process_args(message, args)
+    //
+    //     this.logWithCallerInfo(console.warn, message, this.colors.yellow, stack, 'WARNING');
+    // }
+    //
+    // error(message, ...args) {
+    //     const stack = callsite();
+    //     message = this.process_args(message, args)
+    //
+    //     this.logWithCallerInfo(console.error, message, this.colors.red, stack, 'ERROR');
+    // }
 }
 
-
-const logger = new Logger()
+const logger = new Logger();
 
 module.exports = {
     logger
-}
+};

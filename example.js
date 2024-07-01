@@ -15,12 +15,12 @@ const obj2 = {
 
 function test_log() {
     logger.debug('This is a debug message');
-    logger.info('This is a info message');
-    logger.warning('This is a warning message');
-    logger.error('This is a error message');
+    // logger.info('This is a info message');
+    // logger.warning('This is a warning message');
+    // logger.error('This is a error message');
 
     function innerF() {
-        logger.info('This is a inner info message');
+        // logger.info('This is a inner info message');
 
     }
 
@@ -31,8 +31,11 @@ console.log(`console.log===> ${obj}`)
 logger.debug(`debug log===> ${obj}`)
 logger.debug(`debug log===>`, obj, obj2)
 logger.debug(obj)
+console.log(obj)
 logger.debug([1,2,3,])
 logger.debug(111111)
 logger.debug(obj.hello)
 test_log();
+
+
 

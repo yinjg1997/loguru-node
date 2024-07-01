@@ -1,4 +1,4 @@
-export function logMessage(message, ...args) {
+export function logMessage(message) {
 
     const error = new Error();
     const stack = error.stack;
@@ -7,25 +7,25 @@ export function logMessage(message, ...args) {
         const stackLines = stack.split('\n');
 
         const callerLine = stackLines[2];
-        console.log('callerLine: ' + callerLine)
+        // console.log('callerLine: ' + callerLine)
 
-        const textMatch = callerLine.match(/\(([^()]*(?:\([^()]*\))*[^()]*)\)/);
-        let text = textMatch ? textMatch[1] : 'unknown file';
-        const fileNameLineArray = text.split('/').pop().split(':')
-        const filename = fileNameLineArray[0]
-        const lineNumber = fileNameLineArray.slice(1, fileNameLineArray.length).join(":")
-        console.log('init filename: ' + filename)
-        console.log('lineNumber: ' + lineNumber)
+        const fileNameMatch = callerLine.match(/\(([^)]+)\)/);
+        let fileName = fileNameMatch ? fileNameMatch[1] : 'unknown file';
+        // console.log(`filename: ${fileName}`)
 
         const functionNameMatch = callerLine.match(/at (\S+)/);
         const functionName = functionNameMatch ? functionNameMatch[1] : 'anonymous';
         // console.log('functionName: ' + functionName)
 
+        const lineNumberMatch = fileName.match(/:(\d+):(\d+)$/);
+        const lineNumber = lineNumberMatch ? lineNumberMatch[1] : 'unknown line number';
+        // console.log('lineNumber: ' + lineNumber)
 
-        console.log(`${colorize(filename, colors.cyan)}${colorize(':', colors.red)}${colorize(functionName, colors.cyan)}${colorize(':', colors.red)}${colorize(lineNumber, colors.cyan)} ${colorize('-', colors.red)} ${colorize(message, colors.blue)}`,
-            ...args);
+        fileName = getSubPathFromUrl(fileName)
+
+        console.log(`${colorize(fileName, colors.cyan)}${colorize(':', colors.red)}${colorize(functionName, colors.cyan)}${colorize(':', colors.red)}${colorize(lineNumber, colors.cyan)} ${colorize('-', colors.red)} ${message}`);
     } else {
-        console.log(`[unknown file] [unknown function] ${message}`, ...args);
+        console.log(`[unknown file] [unknown function] ${message}`);
     }
 }
 

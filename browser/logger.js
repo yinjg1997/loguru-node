@@ -1,6 +1,6 @@
 import {colors, colorize} from '../utils.js'
 
-function logger(message) {
+function logger(message, ...args) {
 
     const error = new Error();
     const stack = error.stack;
@@ -24,7 +24,7 @@ function logger(message) {
 
         fileName = getSubPathFromUrl(fileName)
 
-        console.log(`${colorize(fileName, colors.cyan)}${colorize(':', colors.red)}${colorize(functionName, colors.cyan)}${colorize(':', colors.red)}${colorize(lineNumber, colors.cyan)} ${colorize('-', colors.red)} ${message}`);
+        console.log(`${colorize(fileName, colors.cyan)}${colorize(':', colors.red)}${colorize(functionName, colors.cyan)}${colorize(':', colors.red)}${colorize(lineNumber, colors.cyan)} ${colorize('-', colors.red)} ${message}`, ...args);
     } else {
         console.log(`[unknown file] [unknown function] ${message}`);
     }

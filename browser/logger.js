@@ -9,19 +9,20 @@ function logger(message) {
         const stackLines = stack.split('\n');
 
         const callerLine = stackLines[2];
-        // console.log('callerLine: ' + callerLine)
+        console.log('callerLine: ' + callerLine)
 
-        const fileNameMatch = callerLine.match(/\(([^)]+)\)/);
-        let fileName = fileNameMatch ? fileNameMatch[1] : 'unknown file';
-        // console.log(`filename: ${fileName}`)
+        // const fileNameMatch = callerLine.match(/\(([^()]*)\)/);
+        // let fileName = fileNameMatch ? fileNameMatch[1] : 'unknown file';
+        let fileName = extractOuterMostParentheses(callerLine);
+        console.log(`filename: ${fileName}`)
 
         const functionNameMatch = callerLine.match(/at (\S+)/);
         const functionName = functionNameMatch ? functionNameMatch[1] : 'anonymous';
-        // console.log('functionName: ' + functionName)
+        console.log('functionName: ' + functionName)
 
         const lineNumberMatch = fileName.match(/:(\d+):(\d+)$/);
         const lineNumber = lineNumberMatch ? lineNumberMatch[1] : 'unknown line number';
-        // console.log('lineNumber: ' + lineNumber)
+        console.log('lineNumber: ' + lineNumber)
 
         fileName = getSubPathFromUrl(fileName)
 
@@ -39,6 +40,33 @@ function getSubPathFromUrl(url) {
         return urlObj.pathname;
     } catch (error) {
         console.error('Invalid File URL:', error);
+        return null;
+    }
+}
+
+function extractOuterMostParentheses(text) {
+    let stack = [];
+    let start = -1;
+    let end = -1;
+
+    for (let i = 0; i < text.length; i++) {
+        if (text[i] === '(') {
+            if (stack.length === 0) {
+                start = i;
+            }
+            stack.push('(');
+        } else if (text[i] === ')') {
+            stack.pop();
+            if (stack.length === 0) {
+                end = i;
+                break;
+            }
+        }
+    }
+
+    if (start !== -1 && end !== -1) {
+        return text.substring(start + 1, end);
+    } else {
         return null;
     }
 }

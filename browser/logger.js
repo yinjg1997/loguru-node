@@ -9,20 +9,18 @@ function logger(message) {
         const stackLines = stack.split('\n');
 
         const callerLine = stackLines[2];
-        console.log('callerLine: ' + callerLine)
+        // console.log('callerLine: ' + callerLine)
 
-        // const fileNameMatch = callerLine.match(/\(([^()]*)\)/);
-        // let fileName = fileNameMatch ? fileNameMatch[1] : 'unknown file';
         let fileName = extractOuterMostParentheses(callerLine);
-        console.log(`filename: ${fileName}`)
+        // console.log(`filename: ${fileName}`)
 
         const functionNameMatch = callerLine.match(/at (\S+)/);
         const functionName = functionNameMatch ? functionNameMatch[1] : 'anonymous';
-        console.log('functionName: ' + functionName)
+        // console.log('functionName: ' + functionName)
 
         const lineNumberMatch = fileName.match(/:(\d+):(\d+)$/);
         const lineNumber = lineNumberMatch ? lineNumberMatch[1] : 'unknown line number';
-        console.log('lineNumber: ' + lineNumber)
+        // console.log('lineNumber: ' + lineNumber)
 
         fileName = getSubPathFromUrl(fileName)
 

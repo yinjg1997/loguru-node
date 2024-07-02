@@ -25,15 +25,14 @@
 <button id="myButton">点击我</button>
 
 <script type="module">
-    import { logMessage } from './demo.js';
+    import {logger} from '../main.js';
 
     function dddddddd() {
-        logMessage('按钮被点击了！');
+        logger("按钮被点击了！")
     }
 
     document.getElementById('myButton').addEventListener('click', function() {
         dddddddd();
-        console.log(import.meta.url)
     });
 </script>
 </body>

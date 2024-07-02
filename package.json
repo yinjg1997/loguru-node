@@ -1,10 +1,11 @@
 {
   "name": "loguru-node",
-  "version": "1.0.7",
+  "type": "module",
+  "version": "1.0.8",
   "description": "inspired by loguru in python, but using log4js",
-  "main": "logger",
+  "main": "main.js",
   "scripts": {
-    "test": "node example.js"
+    "test": "node node/example.js"
   },
   "keywords": [
     "logger",

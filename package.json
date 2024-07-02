@@ -1,7 +1,7 @@
 {
   "name": "loguru-node",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "inspired by loguru in python, but using log4js",
   "main": "main.js",
   "scripts": {
@@ -22,7 +22,6 @@
     "url": "https://github.com/yinjg1997/loguru-node/tree/main"
   },
   "dependencies": {
-    "callsite": "^1.0.0",
-    "log4js": "^6.9.1"
+    "callsite": "^1.0.0"
   }
 }
